@@ -1,7 +1,7 @@
 ///              MP3 PLAYER BRUMSET-PROJECT
 /// Dferaso@unal.edu.co
 //////////////////////////////////////////
-
+//Se hace uso del modulo MP3 DFPlayer
 
 #include "SoftwareSerial.h"
 SoftwareSerial mySerial(10, 11);
