@@ -1,0 +1,56 @@
+module juego (
+	input              S1, S2, S3, S4, L1, L2, L3, L4,
+	output             B, M,
+);
+
+
+always @(posedge Clk)
+begin
+
+     if(L1==1'b1) begin
+          if (S1 == 1'b1) begin
+          B <= 1;  	
+          end  
+     end
+     if(L1==0'b1) begin
+          if (S1 == 1'b1) begin
+          M <= 1;  	
+          end  
+     end
+
+     if(L2==1'b1) begin
+          if (S2 == 1'b1) begin
+          B <= 1;  	
+          end  
+     end
+     if(L2==0'b1) begin
+          if (S2 == 1'b1) begin
+          M <= 1;  	
+          end  
+     end
+     
+     if(L3==1'b1) begin
+          if (S3 == 1'b1) begin
+          B <= 1;  	
+          end  
+     end
+     if(L3==0'b1) begin
+          if (S3 == 1'b1) begin
+          M <= 1;  	
+          end  
+     end
+
+     if(L4==1'b1) begin
+          if (S4 == 1'b1) begin
+          B <= 1;  	
+          end  
+     end
+     if(L4==0'b1) begin
+          if (S4 == 1'b1) begin
+          M <= 1;  	
+          end  
+     end
+
+     
+end
+endmodule

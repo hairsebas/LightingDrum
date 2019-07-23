@@ -1,0 +1,10 @@
+La FPGA en el proyecto tiene la unica tarea de determinar 
+si un golpe fue bueno o malo. Esto lo hace leyendo como entrada 
+las señales de encendido de los LED's que vienen del arduino 
+(L1, L2, L3, L4) y compararlas con las entradas de los sensores
+(S1, S2, S3, S4): si por ejemplo L1 esta activo (L1=1) se espera
+la lectura de S1, si esta en 1, fue un golpe correcto y a la 
+variable B (Bueno) se pone en 1, pero si en cambio L1 esta apagado 
+(L1 = 0) y recibe un golpe, este generara que M = 1, esto representa 
+un mal golpe. Estas señales B y M se conectan a la Raspberry o al 
+Arduino para determinar puntajes    
