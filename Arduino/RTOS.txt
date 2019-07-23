@@ -1,0 +1,235 @@
+#include <Arduino_FreeRTOS.h>
+#include <semphr.h>  // add the FreeRTOS functions for Semaphores (or Flags).
+#include <SD.h>  
+#include <SPI.h>
+#include <TMRpcm.h> 
+
+#define pinSD 10 
+TMRpcm tmrpcm;
+// entradas
+const int sensor1 = A1;                                                       //  sense----     
+const int sensor2 = A2;                                                       //  pad------
+const int sensor3 = A3;                                                       //  select---
+const int sensor4 = A4;
+const int pausa = 2;
+int p = 0;
+// golpe                                                                              //  volumen--
+int sense1 = 250;
+int sense2 = 350;
+int sense3 = 250;
+int sense4 = 350;
+
+int tiempo = 60; 
+int pad1 = 0;
+int pad2 = 0;
+int pad3 = 0;
+int pad4 = 0;
+
+int select1 = 5;   // define el sonido por defecto en los pads al iniciar el programa, se pueden cambiar para guardar un set.
+int select2 = 3;
+int select3 = 5;
+int select4 = 4;
+
+int volumen1 = 2;
+int volumen2 = 3;
+int volumen3 = 3;
+int volumen4 = 3;
+int seleccion = 3;
+int volumen = 4;
+int volsensor = 3;
+
+void TaskDigitalRead( void *pvParameters );
+void TaskAnalogRead( void *pvParameters );
+
+void setup() {
+  // put your setup code here, to run once:
+  
+   tmrpcm.speakerPin = 9; // define el pin en el que está conectado el altavoz (audio output)
+     Serial.begin(9600); 
+    if (!SD.begin(pinSD)) {  // verifica la coneccion de la tarjeta sd:
+    Serial.println("Fallo en la tarjeta SD");  //Aviso de que algo no anda bien 
+    return;                    
+    }
+Serial.println("aqui va 1");
+
+    xTaskCreate(
+    TaskDigitalRead
+    ,  (const portCHAR *)"DigitalRead"  // A name just for humans
+    ,  128  // This stack size can be checked & adjusted by reading the Stack Highwater
+    ,  NULL
+    ,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+    ,  NULL );
+
+  xTaskCreate(
+    TaskAnalogRead
+    ,  (const portCHAR *) "AnalogRead"
+    ,  128  // Stack size
+    ,  NULL
+    ,  1  // Priority
+    ,  NULL );
+
+}
+
+void loop() {
+   Serial.println("analog");
+       if (pad1 > sense1){
+   
+      Serial.println("pad1");  //Imprime pad detectado
+      Serial.println(pad1);
+      Serial.println("sonido");
+      Serial.println(select1);
+      Serial.println("volumen");
+      
+     //delay (5);                   //volsensor       
+    //volsensor = pad1 / 200 ;       //volsensor
+    //tmrpcm.setVolume(volsensor);  //volsensor
+      tmrpcm.setVolume(volumen1);   //comentar esta linea al utilizar las lineas "volsensor"
+      Serial.println(volumen1);
+    //if (digitalRead (seleccion) == HIGH){
+   // if (pad1 > sense1) {
+     // select1 ++;
+      //if (select1 == 7){
+     //   select1 = 1;
+     // }
+    //}
+       
+    
+    if (select1 == 1){
+      tmrpcm.play("sonido1.wav");  // nombre de archivo a reproducir guardado en la sd.
+      delay(tiempo);}
+      if (select1 == 2){
+      tmrpcm.play("sonido2.wav");  
+      delay(tiempo);}
+      if (select1 == 3){
+      tmrpcm.play("sonido3.wav");
+      delay(tiempo);}
+      if (select1 == 4){
+      tmrpcm.play("sonido4.wav");  
+      delay(tiempo);}
+       if (select1 == 5){
+      tmrpcm.play("sonido5.wav");  
+      delay(tiempo);}
+      //seleccion sonido//
+       if (select1 == 6){
+      tmrpcm.play("sonido6.wav");}  
+      delay(tiempo);
+      
+      ////////////////////////
+      
+  }
+       //sensor2//      ////////////////FFFFFFFFFFFFFFFFFFF//////////////////////////
+ 
+ 
+  if (pad2 > sense2){
+   
+      Serial.println("pad1");  //Imprime pad detectado
+      Serial.println(pad2);
+      Serial.println("sonido");
+      Serial.println(select2);
+      Serial.println("volumen");
+      
+     //delay (5);                   //volsensor       
+    //volsensor = pad1 / 200 ;       //volsensor
+    //tmrpcm.setVolume(volsensor);  //volsensor
+      tmrpcm.setVolume(volumen1);   //comentar esta linea al utilizar las lineas "volsensor"
+      Serial.println(volumen1);
+    //if (digitalRead (seleccion) == HIGH){
+   // if (pad1 > sense1) {
+     // select1 ++;
+      //if (select1 == 7){
+     //   select1 = 1;
+     // }
+    //}
+    
+    
+    if (select1 == 1){
+      tmrpcm.play("sonido1.wav");  // nombre de archivo a reproducir guardado en la sd.
+      delay(tiempo);}
+      if (select1 == 2){
+      tmrpcm.play("sonido2.wav");  
+      delay(tiempo);}
+      if (select1 == 3){
+      tmrpcm.play("sonido3.wav");
+      delay(tiempo);}
+      if (select1 == 4){
+      tmrpcm.play("sonido4.wav");  
+      delay(tiempo);}
+       if (select1 == 5){
+      tmrpcm.play("sonido5.wav");  
+      delay(tiempo);}
+      //seleccion sonido//
+       if (select1 == 6){
+      tmrpcm.play("sonido6.wav");}  
+      delay(tiempo);
+      
+      ////////////////////////
+      
+  }
+ 
+ 
+ 
+ if (pad3 > sense3){
+   
+      Serial.println("pad3");  //Imprime pad detectado
+      Serial.println(pad3);
+       Serial.println("sonido");
+      Serial.println(select3);
+      Serial.println("volumen");
+      //delay (5);
+    //volsensor = pad3 / 200 ;  
+    // tmrpcm.setVolume(volsensor);
+    tmrpcm.setVolume(volumen3);
+      Serial.println(volumen3); 
+     
+  
+      if (select3 == 1){
+        tmrpcm.play("sonido1.wav");  // nombre de archivo a reproducir guardado en la sd.
+      delay(tiempo);} 
+      if (select3 == 2){
+      tmrpcm.play("sonido2.wav");  
+      delay(tiempo);}
+      if (select3 == 3){
+      tmrpcm.play("sonido3.wav");
+      delay(tiempo);} 
+      if (select3 == 4){
+      tmrpcm.play("sonido4.wav");  
+      delay(tiempo);}
+      if (select3 == 5){
+      tmrpcm.play("sonido5.wav");  
+      delay(tiempo);}
+      if (select3 == 6){
+      tmrpcm.play("sonido6.wav");}  
+      delay(tiempo);
+   }
+
+}
+
+//-------------------------task----------------------
+
+void TaskDigitalRead( void *pvParameters )  // This is a Task.
+{
+  (void) pvParameters;
+  
+  
+  for (;;) // A Task shall never return or exit.
+  {
+  p = digitalRead(pausa); 
+  } 
+}
+void TaskAnalogRead( void *pvParameters )  // This is a Task.
+{
+   
+  (void) pvParameters;  
+
+  for (;;)
+  {
+
+    int pad1 = analogRead(A0); 
+    int pad2 = analogRead(A1); 
+    int pad3 = analogRead(A2); 
+    int pad4 = analogRead(A3);
+
+    // See if we can obtain or "Take" the Serial Semaphore.
+    // If the semaphore is not available, wait 5 ticks of the Scheduler to see if it becomes free.
+}
+}
